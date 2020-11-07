@@ -32,11 +32,16 @@ var displayMostPopularGames = function(data){
     }
     for(let i = 0; i<gamesArray.length; i++){
       var holder = gamesArray[i];
-      games.innerHTML = holder;
+      // create an element every time that holds the value and the append it to the body of the 
+      // project which is 'games' you can also add a class by doing
+      // gameholder.classList.add(classNameHere)
+      var gameHolder = document.createElement('div')
+      gameHolder.innerHTML = holder;
+      games.appendChild(gameHolder)	
     }
     console.log(gamesArray);
                      
-   "</p>";
+   
    
 }
 
