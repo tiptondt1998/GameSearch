@@ -1,2 +1,2 @@
-# NFLTeam
-Gets NFL player data
+# GameSearch
+Uses rawg api and nes css framework to get game data
