@@ -1,3 +1,10 @@
+var displayHolder = document.getElementById('gameInfo')
+var gameDet
+var gameImg
+var gameScore
+var gameRel
+var gameDesc
+
 var apiKey = "3f7a082ecdb74b2388222a89923e48d5";
 var getMostPopularGame = function(){
     var t = new Date();
@@ -35,15 +42,44 @@ var displayMostPopularGames = function(data){
       // create an element every time that holds the value and the append it to the body of the 
       // project which is 'games' you can also add a class by doing
       // gameholder.classList.add(classNameHere)
-      console.log(holder)
-      var gameHolder = document.createElement('div')
+      var gameHolder = document.createElement('button')
+      gameHolder.setAttribute('id',holder.id)
+      gameHolder.classList.add('nes-btn')
       gameHolder.innerHTML = holder.name;
       games.appendChild(gameHolder)	
+      gameHolder.addEventListener('click',function (params) {
+        fetchInfo(this.id)
+      })
+
     }
-    console.log(gamesArray);
+
                      
    
    
 }
+function fetchInfo(id) {
+  fetch('https://api.rawg.io/api/games/' + id)
+  .then(function(nameReturned) {
+    // request was successful
+    if (nameReturned.ok) {
+      nameReturned.json().then(function(data) {
+        displayInfo(data);
+      });
+    } else {
+      alert("Error: " + nameReturned.statusText);
+    }
+  });
+}
 
+function displayInfo(game) {
+  gameDet = document.getElementById('gameName')
+  gameScore = document.getElementById('gameRating')
+  gameRel = document.getElementById('gameRelease')
+  gameDesc = document.getElementById('gameDesc')
+
+  gameDet.innerHTML = 'Game Name = '+ game.name
+  gameScore.innerHTML = 'Rating = ' + game.rating
+  gameRel.innerHTML = 'Release Date = ' + game.released
+  gameDesc.innerHTML = game.description
+}
 document.getElementById("mostAnticipated").addEventListener("click",getMostPopularGame);
