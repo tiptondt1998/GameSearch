@@ -54,6 +54,7 @@ var displayMostPopularGames = function(data){
       games.appendChild(gameHolder)	
       gameHolder.addEventListener('click',function (params) {
         fetchInfo(this.id)
+        gameDesc.scrollIntoView()
       })
 
     }
