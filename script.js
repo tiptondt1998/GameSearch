@@ -49,6 +49,7 @@ var displayMostPopularGames = function(data){
       var gameHolder = document.createElement('button')
       gameHolder.setAttribute('id',holder.id)
       gameHolder.classList.add('nes-btn')
+      gameHolder.classList.add('btnDisplay')
       gameHolder.innerHTML = holder.name;
       games.appendChild(gameHolder)	
       gameHolder.addEventListener('click',function (params) {
