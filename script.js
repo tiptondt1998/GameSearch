@@ -1,9 +1,8 @@
 var displayHolder = document.getElementById('gameInfo')
-var gameDet
-var gameImg
-var gameScore
-var gameRel
-var gameDesc
+var gameDet = document.getElementById('gameName')
+var gameScore = document.getElementById('gameRating')
+var gameRel = document.getElementById('gameRelease')
+var gameDesc = document.getElementById('gameDesc')
 
 var apiKey = "3f7a082ecdb74b2388222a89923e48d5";
 var getMostPopularGame = function(){
@@ -33,6 +32,11 @@ var getMostPopularGame = function(){
 var displayMostPopularGames = function(data){
     console.log(data);
     var games = document.getElementById("games");
+    games.innerHTML = ''
+    gameDet.innerHTML = ''
+    gameScore.innerHTML = ''
+    gameRel.innerHTML = ''
+    gameDesc.innerHTML = ''
     var gamesArray = [];
     for(let i = 0; i<data.results.length; i++){
     gamesArray.push(data.results[i]);
@@ -72,10 +76,7 @@ function fetchInfo(id) {
 }
 
 function displayInfo(game) {
-  gameDet = document.getElementById('gameName')
-  gameScore = document.getElementById('gameRating')
-  gameRel = document.getElementById('gameRelease')
-  gameDesc = document.getElementById('gameDesc')
+  
 
   gameDet.innerHTML = 'Game Name = '+ game.name
   gameScore.innerHTML = 'Rating = ' + game.rating
