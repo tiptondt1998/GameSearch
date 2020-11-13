@@ -6,7 +6,10 @@
   width: 50%;
   text-align: center;
   margin: auto 0 auto 25%;
- }
-#games{
-  text-align: center; 
+}
+#games {
+  text-align: center;
+}
+#gameDisplay {
+  margin: 10px;
 }
