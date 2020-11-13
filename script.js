@@ -52,6 +52,9 @@ var displayMostPopularGames = function(data){
     var gamesArray = [];
     for(let i = 0; i<data.results.length; i++){
     gamesArray.push(data.results[i]);
+    if(gamesArray.length === 10){
+      break;
+    }
     }
     for(let i = 0; i<gamesArray.length; i++){
       var holder = gamesArray[i];
