@@ -1,32 +1,53 @@
 var displayHolder = document.getElementById('gameInfo')
 var games = document.getElementById("games");
 var display = document.getElementById('gameDisplay')
-
+var recentDisplay = document.getElementById('recentDisplay')
+var recentHolder = document.getElementById('recentHolder')
 var apiKey = "3f7a082ecdb74b2388222a89923e48d5";
+
+
+// updating the recent list and parsing it. If there is nothing in the list initialize empty array
+var recent = JSON.parse(localStorage.getItem('list')) || []
+for (let index = 0; index < recent.length; index++) {
+  // creating button element that goes in the list to make it easier to add event listeners
+  var recentEl = document.createElement('button')
+  recentEl.classList.add('nes-btn')
+  recentEl.classList.add('btnDisplay')
+  recentEl.innerHTML = recent[index]
+
+  recentHolder.appendChild(recentEl)
+  recentDisplay.appendChild(displayHolder)
+  
+}
 var getMostPopularGame = function(){
     var t = new Date();
     var year = t.getFullYear();
     var month = (t.getMonth()+1);
     var day = t.getDate();
     var todayDate = year + "-" + month + "-" + day;
-
+    // grabbing value you from what is entered into the field
     var selectedYear = document.getElementById("inline_field").value;
     var regex = /\d{4}/g
     var found = selectedYear.match(regex)
-    
+    // check for a bad date. The API only goes back to the 1960 so we have to flush everyhting out
     if(!found || selectedYear > year || selectedYear < 1960){
-      console.log('bad year')
+      // remove existing html that may have persisted
       games.innerHTML = ''
       display.innerHTML = ''
+      // create error display
       var badDate = document.createElement('h1')
       badDate.classList.add('nes-text')
       badDate.classList.add('is-error')
       badDate.innerHTML = 'bad date'
       games.appendChild(badDate)
     }else {
+      // check if all persistant data is gone
     if (displayHolder.innerHTML != '') {
       displayHolder.innerHTML = ''
     }
+    // call function to render the list we created above, created seperate function to keep it neat
+    renderList(selectedYear)
+    document.getElementById('inline_field').value = ''
     var apiUrl = "https://api.rawg.io/api/games?dates="+selectedYear+"-01-01,"+selectedYear+"-12-31&ordering=-added";
     //make a request to the url
     fetch(apiUrl)
@@ -43,13 +64,12 @@ var getMostPopularGame = function(){
     }
 }
 
-var displayMostPopularGames = function(data){
-    console.log(data);
-    
-    console.log('most popular games')
+var displayMostPopularGames = function(data){ 
+    // once again removing persistant html
     games.innerHTML = ''
     display.innerHTML = ''
     var gamesArray = [];
+    // placing all results into an array to eventually be pushed into buttons 
     for(let i = 0; i<data.results.length; i++){
     gamesArray.push(data.results[i]);
     }
@@ -75,7 +95,7 @@ var displayMostPopularGames = function(data){
    
 }
 function fetchInfo(id) {
-  console.log('fetching game')
+  // simple API call to get the data of a specific button pressed. Used the ID of the button to grab the data
   fetch('https://api.rawg.io/api/games/' + id)
   .then(function(nameReturned) {
     // request was successful
@@ -90,7 +110,7 @@ function fetchInfo(id) {
 }
 
 function displayInfo(game) {
-  console.log('displaying')
+  // Creating and displaying the information about each game. Maybe could have made an Object?
   if (displayHolder.innerHTML != '') {
     displayHolder.innerHTML = ''
   }
@@ -125,4 +145,34 @@ function displayInfo(game) {
   display.appendChild(displayHolder)
 
 }
+
+function renderList(list) {
+  // Checks if the param is already in the list, if it isn't pushes it to localStorage and handles it, if it is, does nothing
+  if (!recent.includes(list)) {
+    
+  
+  recent.push(list)
+  localStorage.setItem('list',JSON.stringify(recent))
+  var recentEl = document.createElement('button')
+  recentEl.classList.add('nes-btn')
+  recentEl.classList.add('btnDisplay')
+  recentEl.innerHTML = list
+
+  recentHolder.appendChild(recentEl)
+  recentDisplay.appendChild(displayHolder)
+  }
+}
+
+
+
+
+
+// Simple function for clearing out localStorage
+function clearHistory () {
+  localStorage.clear()
+}
+
+
+
 document.getElementById("mostAnticipated").addEventListener("click",getMostPopularGame);
+document.getElementById("clearHistory").addEventListener("click",clearHistory);

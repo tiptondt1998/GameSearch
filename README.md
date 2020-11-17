@@ -13,8 +13,18 @@ Uses rawg api and nes css framework to get game data
 
 # todos
 
-- check for date entered
-- error handlers - display if date entered is incorrect
 - css changes
 - localStorage implemented
 - clean up folder directories
+- fix page numbers
+- responsive design
+
+- kevin
+  - localStorage
+- dylan
+  - fix page numbers
+- tristan
+  - css changes
+  - clean up folders
+  - responsive design
+  - creating localstorage holder
