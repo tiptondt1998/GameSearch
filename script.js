@@ -4,6 +4,7 @@ var display = document.getElementById('gameDisplay')
 var recentDisplay = document.getElementById('recentDisplay')
 var recentHolder = document.getElementById('recentHolder')
 var apiKey = "3f7a082ecdb74b2388222a89923e48d5";
+// make selectedYear global to handle when a past year is clicked
 
 
 // updating the recent list and parsing it. If there is nothing in the list initialize empty array
@@ -62,6 +63,7 @@ var getMostPopularGame = function(){
       }
     });
     }
+  
 }
 
 var displayMostPopularGames = function(data){ 
@@ -147,19 +149,27 @@ function displayInfo(game) {
 }
 
 function renderList(list) {
-  // Checks if the param is already in the list, if it isn't pushes it to localStorage and handles it, if it is, does nothing
+  // Checks if the list is already in the recent, if it isn't pushes it to localStorage and handles it, if it is, does nothing
   if (!recent.includes(list)) {
     
-  
+  // create the list elements and add them to local storage
   recent.push(list)
   localStorage.setItem('list',JSON.stringify(recent))
   var recentEl = document.createElement('button')
   recentEl.classList.add('nes-btn')
   recentEl.classList.add('btnDisplay')
+  recentEl.setAttribute('id', list)
   recentEl.innerHTML = list
 
   recentHolder.appendChild(recentEl)
   recentDisplay.appendChild(displayHolder)
+  // place an event listener on each new button element and when clicked, takes advantage of our code above
+  // and simply adds the date to the field and calls the function
+  // essentially 'clicking' it without actually clicking it.
+  recentEl.addEventListener('click', function (params) {
+    document.getElementById('inline_field').value = this.id
+    getMostPopularGame()
+  })
   }
 }
 
