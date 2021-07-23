@@ -52,6 +52,10 @@ var getMostPopularGame = function(){
     var apiUrl = "https://api.rawg.io/api/games?dates="+selectedYear+"-01-01,"+selectedYear+"-12-31&ordering=-added";
     //make a request to the url
     fetch(apiUrl)
+      mode: 'no-cors',
+  header: {
+    'Access-Control-Allow-Origin':'*',
+  }
     .then(function(response) {
       // request was successful
       if (response.ok) {
