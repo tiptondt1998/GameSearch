@@ -53,7 +53,6 @@ var getMostPopularGame = function(){
     //make a request to the url
     fetch(apiUrl, {mode: "no-cors"})
     .then(function(response) {
-      // request was successful
       if (response.ok) {
         response.json().then(function(data) {
           displayMostPopularGames(data);
